@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monsieur Collection | Luxury Grooming & Barbering by Saloo Hair</title>
+    
+    <link rel="icon" type="image/jpeg" href="logo.jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&family=Source+Serif+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ======== ROOT & BASE (same as original) ======== */
+        :root {
+            --gold: #d4af37;
+            --gold-light: #e6c158;
+            --gold-dark: #b8941a;
+            --steel-blue: #2c396b;
+           /* --steel-blue-light: #3a4a8a;*/
+            --steel-blue-light: #bdb23e;
+            --black: #0a0a0a;
+            --black-light: #1a1a1a;
+            --charcoal: #2a2a2a;
+            --white: #ffffff;
+            --gray: #888;
+            --gray-light: #b0b0b0;
+            --accent: #e9ccbb;
+            --transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --radius: 6px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            background-color: var(--black); 
+            color: var(--white); 
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(44, 57, 107, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+                linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 500; letter-spacing: 0.5px; }
+
+        /* --- LOADER (unchanged) --- */
+        .loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--black);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-spinner {
+            width: 60px; height: 60px;
+            border: 3px solid rgba(44, 57, 107, 0.1);
+            border-top-color: var(--steel-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        .loader-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- HEADER, HERO, FOOTER identical to original (kept minimal here for space) --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 8%; background: rgba(10, 10, 10, 0.97); backdrop-filter: blur(15px);
+            position: fixed; width: 100%; top: 0; z-index: 2000; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(44, 57, 107, 0.2); transition: var(--transition);
+        }
+        header.scrolled { padding: 12px 8%; background: rgba(10, 10, 10, 0.98); }
+        .logo { display: flex; align-items: center; text-decoration: none; transition: var(--transition); }
+        .logo:hover { transform: translateY(-2px); }
+        .logo img { height: 50px; width: auto; display: block; filter: brightness(1.1); }
+
+        /* desktop nav / mobile toggle – shortened for brevity (functionally same) */
+        .desktop-nav { display: flex; align-items: center; }
+        .nav-list { display: flex; align-items: center; list-style: none; gap: 35px; }
+        .nav-item { position: relative; }
+        .nav-item a { text-decoration: none; color: var(--white); font-size: 0.9rem; text-transform: uppercase; font-weight: 500; letter-spacing: 1.5px; transition: var(--transition); padding: 8px 0; position: relative; }
+        .nav-item a::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--steel-blue); transition: width 0.4s; }
+        .nav-item a:hover::before, .nav-item a.active::before { width: 100%; }
+        .nav-item a.active { color: var(--steel-blue-light); }
+
+        .dropdown { position: absolute; top: calc(100% + 10px); left: 0; background: rgba(26, 26, 26, 0.97); backdrop-filter: blur(10px); min-width: 200px; box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(15px); transition: var(--transition); padding: 15px 0; border-radius: var(--radius); border: 1px solid rgba(44, 57, 107, 0.2); z-index: 100; }
+        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown a { display: block; padding: 12px 25px; text-transform: none; font-weight: 400; font-size: 0.9rem; color: var(--gray-light); transition: all 0.3s ease; }
+        .dropdown a:hover { background: rgba(44, 57, 107, 0.1); color: var(--steel-blue-light); padding-left: 30px; }
+
+        .call-btn { background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white) !important; padding: 10px 25px !important; border-radius: 4px; font-weight: 600; margin-left: 25px; position: relative; overflow: hidden; }
+        .call-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(135deg, var(--steel-blue-light), var(--gold)); transition: left 0.4s ease; z-index: 1; }
+        .call-btn:hover::before { left: 0; }
+        .call-btn span { position: relative; z-index: 2; }
+
+        .menu-toggle { display: none; font-size: 1.5rem; color: var(--white); cursor: pointer; z-index: 1001; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(44, 57, 107, 0.1); }
+        .menu-toggle:hover { background: rgba(44, 57, 107, 0.2); transform: rotate(90deg); }
+
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 300px; height: 100%; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px); z-index: 1002; padding: 100px 30px 40px; box-shadow: -5px 0 30px rgba(0,0,0,0.5); transition: var(--transition); overflow-y: auto; border-left: 1px solid rgba(44, 57, 107, 0.2); }
+        .mobile-menu.active { right: 0; }
+        .mobile-nav-list { list-style: none; }
+        .mobile-nav-item { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .mobile-nav-item a { text-decoration: none; color: var(--white); font-size: 1.1rem; font-weight: 500; display: block; transition: var(--transition); padding: 10px 0; position: relative; }
+        .mobile-nav-item a:hover { color: var(--steel-blue-light); padding-left: 10px; }
+        .mobile-call-btn { background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white); padding: 12px 25px; border-radius: 4px; font-weight: 600; text-align: center; display: block; text-decoration: none; margin-top: 20px; }
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1001; opacity: 0; visibility: hidden; transition: var(--transition); backdrop-filter: blur(5px); }
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+
+        .hero { height: 70vh; min-height: 600px; margin-top: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.7)), url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; text-align: center; padding: 0 20px; position: relative; overflow: hidden; }
+        .hero h1 { font-size: clamp(3.5rem, 10vw, 7rem); font-style: italic; font-weight: 400; color: var(--white); text-shadow: 0 5px 15px rgba(0, 0, 0, 0.7); margin-bottom: 10px; letter-spacing: 2px; font-family: 'Source Serif Pro', serif; }
+        .hero-subtitle { font-size: clamp(1rem, 3vw, 1.5rem); letter-spacing: 8px; color: var(--gold); text-transform: uppercase; font-weight: 300; margin-bottom: 30px; position: relative; display: inline-block; }
+        .hero-subtitle::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 2px; background: var(--gold); }
+        .hero-desc { font-size: 1.1rem; color: var(--gray-light); max-width: 600px; margin: 30px auto 40px; line-height: 1.8; font-weight: 300; }
+        .btn { padding: 14px 32px; background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white); border-radius: 4px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; transition: var(--transition); border: none; cursor: pointer; text-decoration: none; display: inline-block; position: relative; overflow: hidden; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--black); }
+
+        /* --- MENU SECTION (same style as original) --- */
+        .menu-section { padding: 100px 8% 80px; background: var(--black); position: relative; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-header h2 { font-size: clamp(2.5rem, 6vw, 4rem); color: var(--steel-blue-light); text-transform: uppercase; letter-spacing: 4px; font-weight: 500; margin-bottom: 20px; position: relative; display: inline-block; }
+        .section-header h2::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 100px; height: 2px; background: var(--steel-blue); }
+        .section-subtitle { font-size: 1.1rem; color: var(--gray-light); max-width: 600px; margin: 0 auto; font-weight: 300; letter-spacing: 1px; }
+
+        .filter-nav { display: flex; justify-content: center; gap: 15px; margin-bottom: 60px; flex-wrap: wrap; }
+        .filter-nav button { background: transparent; border: 1px solid rgba(44, 57, 107, 0.4); color: var(--gray-light); padding: 12px 25px; cursor: pointer; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; transition: var(--transition); border-radius: 4px; font-family: 'Montserrat', sans-serif; font-weight: 500; position: relative; overflow: hidden; }
+        .filter-nav button:hover { color: var(--steel-blue-light); border-color: var(--steel-blue); transform: translateY(-3px); }
+        .filter-nav button.active { background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white); border-color: var(--steel-blue); font-weight: 600; box-shadow: 0 5px 15px rgba(44, 57, 107, 0.2); }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px; opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .menu-grid.active { opacity: 1; transform: translateY(0); }
+        .category-block { margin-bottom: 40px; border-top: 1px solid rgba(44, 57, 107, 0.3); padding-top: 30px; transition: var(--transition); opacity: 0; transform: translateY(30px); }
+        .category-block.revealed { opacity: 1; transform: translateY(0); }
+        .category-block.hidden { display: none; }
+        .category-block h3 { font-size: 1.8rem; color: var(--steel-blue-light); margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; font-weight: 500; position: relative; padding-bottom: 15px; }
+        .category-block h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 2px; background: var(--steel-blue); }
+
+        .service-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; transition: var(--transition); cursor: pointer; padding: 12px 15px; border-radius: 4px; position: relative; overflow: hidden; }
+        .service-row::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: rgba(44, 57, 107, 0.05); transition: left 0.4s ease; z-index: -1; }
+        .service-row:hover::before { left: 0; }
+        .service-row:hover { color: var(--steel-blue-light); transform: translateX(5px); }
+        .service-name { font-size: 1rem; font-weight: 400; flex: 1; padding-right: 20px; transition: var(--transition); font-family: 'Montserrat', sans-serif; }
+        .service-line { flex-grow: 1; border-bottom: 1px dashed rgba(255,255,255,0.1); margin: 0 15px; height: 1px; align-self: flex-end; transition: var(--transition); }
+        .service-row:hover .service-line { border-bottom-color: rgba(44, 57, 107, 0.4); }
+        .price { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; font-weight: 500; color: var(--gold); white-space: nowrap; transition: var(--transition); }
+        .service-row:hover .price { transform: scale(1.05); }
+
+        .floating-cta { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.5rem; box-shadow: 0 10px 30px rgba(44, 57, 107, 0.3); z-index: 100; transition: var(--transition); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 10px 30px rgba(44,57,107,0.3); } 50% { box-shadow: 0 10px 40px rgba(44,57,107,0.5); } 100% { box-shadow: 0 10px 30px rgba(44,57,107,0.3); } }
+
+        footer { padding: 80px 8% 40px; background: #050505; border-top: 1px solid rgba(44, 57, 107, 0.2); position: relative; overflow: hidden; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 50px; text-align: center; position: relative; z-index: 1; }
+        .footer-col h4 { color: var(--steel-blue-light); font-size: 1.3rem; margin-bottom: 25px; text-transform: uppercase; font-weight: 500; letter-spacing: 2px; position: relative; display: inline-block; }
+        .footer-col h4::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--steel-blue); }
+        .social-icons a:hover { background: var(--steel-blue); color: var(--white); transform: translateY(-5px); }
+        .scroll-top { position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; background: rgba(26, 26, 26, 0.8); color: var(--steel-blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem; opacity: 0; visibility: hidden; transition: var(--transition); border: 1px solid rgba(44, 57, 107, 0.2); }
+        .scroll-top.active { opacity: 1; visibility: visible; }
+
+        @media (max-width: 992px) { .menu-toggle { display: flex; } .desktop-nav { display: none; } }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Monsieur</div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="logo"><img src="logo.jpeg" alt="Saloo Hair by Chets"></a>
+        <div class="desktop-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html">Home</a></li>
+                <li class="nav-item"><a href="about.html">About Us</a></li>
+                <li class="nav-item">
+                    <a href="#">Services <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i></a>
+                    <div class="dropdown">
+                        <a href="men.html" class="active">Men's Grooming</a>
+                        <a href="women.html">Women's Beauty</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a href="tel:9925569261" class="call-btn"><span>99255 69261</span></a></li>
+            </ul>
+        </div>
+        <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <!-- Mobile Menu Overlay & Menu -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-list">
+            <li class="mobile-nav-item"><a href="index.html">Home</a></li>
+            <li class="mobile-nav-item"><a href="about.html">About Us</a></li>
+            <li class="mobile-nav-item"><a href="men.html" class="active">Men's Grooming</a></li>
+            <li class="mobile-nav-item"><a href="women.html">Women's Beauty</a></li>
+            <li class="mobile-nav-item"><a href="tel:9925569261" class="mobile-call-btn"><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> 99255 69261</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Monsieur</h1>
+            <div class="hero-subtitle">Haute Couture Grooming</div>
+            <p class="hero-desc">Experience premium grooming services tailored for the modern gentleman. From precision haircuts to luxury beard treatments, discover our exclusive Monsieur Collection crafted for discerning men.</p>
+            <div class="hero-cta">
+                <a href="#menu" class="btn"><span>View Services</span></a>
+                <a href="tel:9925569261" class="btn btn-gold"><span><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> Book Now</span></a>
+            </div>
+        </div>
+        <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <!-- ========== UPDATED MENU (FULL MENS PRICING) ========== -->
+    <section class="menu-section" id="menu">
+        <div class="section-header">
+            <h2>Monsieur Collections</h2>
+            <p class="section-subtitle">Premium grooming services for the modern gentleman</p>
+        </div>
+
+        <!-- Filter Navigation -->
+        <div class="filter-nav">
+            <button class="active" onclick="filterMenu('all', this)">All Services</button>
+            <button onclick="filterMenu('hair', this)">Hair & Beard</button>
+            <button onclick="filterMenu('body', this)">Body & Spa</button>
+            <button onclick="filterMenu('skin', this)">Skin & Makeup</button>
+            <button onclick="filterMenu('color', this)">Color & Treatments</button>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid" id="menuGrid">
+
+            <!-- 1. HAIRCUT / BEARD / STYLING / WASH (category hair) -->
+            <div class="category-block" data-cat="hair">
+                <h3>Haircut / Beard / Styling / Wash</h3>
+                <div class="service-row"><span class="service-name">Boys (below 12 years)</span><div class="service-line"></div><span class="price">₹400</span></div>
+                <div class="service-row"><span class="service-name">By Master Stylist</span><div class="service-line"></div><span class="price">₹500</span></div>
+                <div class="service-row"><span class="service-name">By Senior Stylist</span><div class="service-line"></div><span class="price">₹700</span></div>
+                <div class="service-row"><span class="service-name">Add On - Luxury Wash</span><div class="service-line"></div><span class="price">₹200</span></div>
+                <div class="service-row"><span class="service-name">Shaving / Trim</span><div class="service-line"></div><span class="price">₹300</span></div>
+                <div class="service-row"><span class="service-name">Beard Craft</span><div class="service-line"></div><span class="price">₹400</span></div>
+                <div class="service-row"><span class="service-name">Hair Styling - Male</span><div class="service-line"></div><span class="price">₹300</span></div>
+                <div class="service-row"><span class="service-name">Classic Wash</span><div class="service-line"></div><span class="price">₹300</span></div>
+                <div class="service-row"><span class="service-name">Luxury Wash</span><div class="service-line"></div><span class="price">₹400</span></div>
+            </div>
+
+            <!-- 2. BODY TRIMMING (category body) -->
+            <div class="category-block" data-cat="body">
+                <h3>Body Trimming</h3>
+                <div class="service-row"><span class="service-name">Chest / Back</span><div class="service-line"></div><span class="price">₹500</span></div>
+                <div class="service-row"><span class="service-name">Full Arms</span><div class="service-line"></div><span class="price">₹700</span></div>
+                <div class="service-row"><span class="service-name">Full Legs</span><div class="service-line"></div><span class="price">₹1000</span></div>
+                <div class="service-row"><span class="service-name">Full Body</span><div class="service-line"></div><span class="price">₹2200</span></div>
+                <div class="service-row"><span class="service-name">Under Arms</span><div class="service-line"></div><span class="price">₹300</span></div>
+            </div>
+
+            <!-- 3. HAIR COLOR – MAJIREL (category color) -->
+            <div class="category-block" data-cat="color">
+                <h3>Hair Color – Majirel</h3>
+                <div class="service-row"><span class="service-name">Male Per Streak Color</span><div class="service-line"></div><span class="price">₹300</span></div>
+                <div class="service-row"><span class="service-name">Male Global Color</span><div class="service-line"></div><span class="price">₹1400</span></div>
+                <div class="service-row"><span class="service-name">Male Global Highlights</span><div class="service-line"></div><span class="price">₹2000</span></div>
+                <div class="service-row"><span class="service-name">Side Locks + Moustache</span><div class="service-line"></div><span class="price">₹400</span></div>
+                <div class="service-row"><span class="service-name">Beard</span><div class="service-line"></div><span class="price">₹500</span></div>
+            </div>
+
+            <!-- 4. HAIR COLOR – INOA / Bigen (category color) -->
+            <div class="category-block" data-cat="color">
+                <h3>Hair Color – INOA & Bigen</h3>
+                <div class="service-row"><span class="service-name">Male Per Streak Color - Inoa</span><div class="service-line"></div><span class="price">₹350</span></div>
+                <div class="service-row"><span class="service-name">Male Global Color - Inoa</span><div class="service-line"></div><span class="price">₹1500</span></div>
+                <div class="service-row"><span class="service-name">Male Global Highlights - Inoa</span><div class="service-line"></div><span class="price">₹2200</span></div>
+                <div class="service-row"><span class="service-name">Side Locks + Moustache - Inoa</span><div class="service-line"></div><span class="price">₹450</span></div>
+                <div class="service-row"><span class="service-name">Beard - Inoa</span><div class="service-line"></div><span class="price">₹600</span></div>
+                <div class="service-row"><span class="service-name">Beard - Bigen</span><div class="service-line"></div><span class="price">₹1000</span></div>
+                <div class="service-row"><span class="service-name">Pre Lightening - Global</span><div class="service-line"></div><span class="price">₹1300</span></div>
+            </div>
+
+            <!-- 5. HAIR TREATMENTS / SPA (category hair) -->
+            <div class="category-block" data-cat="hair">
+                <h3>Hair Treatments & Spa</h3>
+                <div class="service-row"><span class="service-name">Add On with Color - Olaplex (Male)</span><div class="service-line"></div><span class="price">₹900</span></div>
+                <div class="service-row"><span class="service-name">Root Deep Scalp Shot (with Color) Male</span><div class="service-line"></div><span class="price">₹900</span></div>
+                <div class="service-row"><span class="service-name">Head Massage with Classic Wash</span><div class="service-line"></div><span class="price">₹1000</span></div>
+                <div class="service-row"><span class="service-name">Premium Head Massage with Classic Wash</span><div class="service-line"></div><span class="price">₹1200</span></div>
+                <div class="service-row"><span class="service-name">Hair Spa - Hydrating/Purifying - Male</span><div class="service-line"></div><span class="price">₹1200</span></div>
+                <div class="service-row"><span class="service-name">Scalp Care - Soothing/Anti Dandruff etc.</span><div class="service-line"></div><span class="price">₹2200</span></div>
+                <div class="service-row"><span class="service-name">Olaplex Bond Strengthening - Male</span><div class="service-line"></div><span class="price">₹1500</span></div>
+                <div class="service-row"><span class="service-name">Molecular Repair Treatment - Male</span><div class="service-line"></div><span class="price">₹2400</span></div>
+            </div>
+
+            <!-- 6. TEXTURE SERVICES (category hair) -->
+            <div class="category-block" data-cat="hair">
+                <h3>Texture Services</h3>
+                <div class="service-row"><span class="service-name">Smoothening / Botoplex / Botoliss - Male</span><div class="service-line"></div><span class="price">₹5000</span></div>
+                <div class="service-row"><span class="service-name">Nanoplastia - Male</span><div class="service-line"></div><span class="price">₹5500</span></div>
+            </div>
+
+            <!-- 7. MOROCCAN RITUALS (category body / treat) -->
+            <div class="category-block" data-cat="body">
+                <h3>Moroccan Rituals (Male)</h3>
+                <div class="service-row"><span class="service-name">Moroccan oil Ritual - Male</span><div class="service-line"></div><span class="price">₹1100</span></div>
+                <div class="service-row"><span class="service-name">Intense Hydrating Ritual - Male</span><div class="service-line"></div><span class="price">₹1200</span></div>
+                <div class="service-row"><span class="service-name">Weightless Ritual - Male</span><div class="service-line"></div><span class="price">₹1400</span></div>
+                <div class="service-row"><span class="service-name">Restorative Ritual - Male</span><div class="service-line"></div><span class="price">₹1400</span></div>
+                <div class="service-row"><span class="service-name">Moroccan Scalp Treatment - Male</span><div class="service-line"></div><span class="price">₹1900</span></div>
+                <div class="service-row"><span class="service-name">Moroccan Scalp & Hair Balance - Male</span><div class="service-line"></div><span class="price">₹2500</span></div>
+            </div>
+
+            <!-- 8. CLEANUP & FACIALS (category skin) -->
+            <div class="category-block" data-cat="skin">
+                <h3>Cleanup & Facials (Male)</h3>
+                <div class="service-row"><span class="service-name">Classic Cleanup</span><div class="service-line"></div><span class="price">₹1400</span></div>
+                <div class="service-row"><span class="service-name">Premium Cleanup</span><div class="service-line"></div><span class="price">₹2000</span></div>
+                <div class="service-row"><span class="service-name">Luxury Cleanup</span><div class="service-line"></div><span class="price">₹2800</span></div>
+                <div class="service-row"><span class="service-name">Classic Facial</span><div class="service-line"></div><span class="price">₹4000</span></div>
+                <div class="service-row"><span class="service-name">Premium Facial</span><div class="service-line"></div><span class="price">₹5500</span></div>
+                <div class="service-row"><span class="service-name">Luxury Facial</span><div class="service-line"></div><span class="price">₹8000</span></div>
+                <div class="service-row"><span class="service-name">Signature Facial</span><div class="service-line"></div><span class="price">₹10000</span></div>
+                <div class="service-row"><span class="service-name">Hydra Facial</span><div class="service-line"></div><span class="price">₹5000</span></div>
+                <div class="service-row"><span class="service-name">Add on Hydra Machine (with any facial)</span><div class="service-line"></div><span class="price">₹1000</span></div>
+            </div>
+
+            <!-- 9. MUD MASK / DETAN / BLACK MUD MASK (category skin) -->
+            <div class="category-block" data-cat="skin">
+                <h3>Mud Mask & De-tan</h3>
+                <div class="service-row"><span class="service-name">De-tan Mask</span><div class="service-line"></div><span class="price">₹900</span></div>
+                <div class="service-row"><span class="service-name">Black Mud Mask</span><div class="service-line"></div><span class="price">₹1700</span></div>
+                <div class="service-row"><span class="service-name">Algy Mask</span><div class="service-line"></div><span class="price">₹2200</span></div>
+            </div>
+            <div class="category-block" data-cat="skin">
+                <h3>Black Mud Mask (area specific)</h3>
+                <div class="service-row"><span class="service-name">Underarms / Feet</span><div class="service-line"></div><span class="price">₹1,100</span></div>
+                <div class="service-row"><span class="service-name">Half Arms / Front / Back</span><div class="service-line"></div><span class="price">₹2,200</span></div>
+                <div class="service-row"><span class="service-name">Full Arms</span><div class="service-line"></div><span class="price">₹3,700</span></div>
+                <div class="service-row"><span class="service-name">Full Legs</span><div class="service-line"></div><span class="price">₹4,800</span></div>
+                <div class="service-row"><span class="service-name">Full Body</span><div class="service-line"></div><span class="price">₹13,000</span></div>
+            </div>
+
+            <!-- 10. ITALIAN LIPOSOLUABLE WAX (category body) -->
+            <div class="category-block" data-cat="body">
+                <h3>Italian Liposoluable Wax - Male</h3>
+                <div class="service-row"><span class="service-name">Under Arms - Male</span><div class="service-line"></div><span class="price">₹400</span></div>
+                <div class="service-row"><span class="service-name">Full Arms / Half Legs</span><div class="service-line"></div><span class="price">₹800</span></div>
+                <div class="service-row"><span class="service-name">Full Legs / Front / Back</span><div class="service-line"></div><span class="price">₹1000</span></div>
+                <div class="service-row"><span class="service-name">Full Body - Male</span><div class="service-line"></div><span class="price">₹3800</span></div>
+            </div>
+
+            <!-- 11. MANICURE & PEDICURE (category body) -->
+            <div class="category-block" data-cat="body">
+                <h3>Manicure & Pedicure</h3>
+                <div class="service-row"><span class="service-name">Cut file</span><div class="service-line"></div><span class="price">₹200</span></div>
+                <div class="service-row"><span class="service-name">Classic Manicure</span><div class="service-line"></div><span class="price">₹1100</span></div>
+                <div class="service-row"><span class="service-name">Classic Pedicure</span><div class="service-line"></div><span class="price">₹1200</span></div>
+                <div class="service-row"><span class="service-name">Premium Manicure</span><div class="service-line"></div><span class="price">₹1600</span></div>
+                <div class="service-row"><span class="service-name">Premium Pedicure</span><div class="service-line"></div><span class="price">₹1800</span></div>
+                <div class="service-row"><span class="service-name">Luxury Manicure</span><div class="service-line"></div><span class="price">₹2000</span></div>
+                <div class="service-row"><span class="service-name">Luxury Pedicure</span><div class="service-line"></div><span class="price">₹2200</span></div>
+                <div class="service-row"><span class="service-name">Reflexology (30 mins)</span><div class="service-line"></div><span class="price">₹1000</span></div>
+            </div>
+
+            <!-- 12. MAKEUP (category skin) -->
+            <div class="category-block" data-cat="skin">
+                <h3>Groom Makeup</h3>
+                <div class="service-row"><span class="service-name">Groom Makeup - HD (incl. hair style & beard trim)</span><div class="service-line"></div><span class="price">₹4000</span></div>
+                <div class="service-row"><span class="service-name">Groom Makeup - Airbrush (incl. hair style & beard trim)</span><div class="service-line"></div><span class="price">₹7000</span></div>
+            </div>
+
+        </div> <!-- menu-grid -->
+    </section>
+
+    <!-- Floating CTA & Scroll top -->
+    <a href="tel:9925569261" class="floating-cta"><i class="fas fa-phone-alt"></i></a>
+    <a href="#" class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></a>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col"><h4>Kudasan Branch</h4><p>Siddhraj Z Square, W00-7</p><p>Kudasan, Gandhinagar - 382419</p><p>Near Union Bank of India</p></div>
+            <div class="footer-col"><h4>Connect With Us</h4><p>Chetsnai1111@gmail.com</p><p>Support: 99255 69261</p><p>Mon-Sun: 10:00 AM - 9:00 PM</p></div>
+            <div class="footer-col"><h4>Follow Our Journey</h4><p style="letter-spacing: 2px; color: var(--steel-blue-light);">@saloohairbychets</p><div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 SALOO HAIR BY CHETS | MONSIEUR COLLECTION | 5% GST APPLICABLE</p><p style="margin-top: 10px; font-size: 0.7rem; color: #555;">Crafted with <i class="fas fa-heart" style="color: #e25555;"></i> for modern gentlemen</p></div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const loader = document.getElementById('loader');
+        const header = document.getElementById('header');
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuGrid = document.getElementById('menuGrid');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => { loader.classList.add('hidden'); menuGrid.classList.add('active'); }, 1000);
+            revealOnScroll();
+        });
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+            if (window.scrollY > 500) scrollTopBtn.classList.add('active'); else scrollTopBtn.classList.remove('active');
+            revealOnScroll();
+        });
+
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.add('active'); menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        menuOverlay.addEventListener('click', () => { mobileMenu.classList.remove('active'); menuOverlay.classList.remove('active'); document.body.style.overflow = 'auto'; });
+
+        function filterMenu(category, btn) {
+            const blocks = document.querySelectorAll('.category-block');
+            const btns = document.querySelectorAll('.filter-nav button');
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            blocks.forEach(block => {
+                block.classList.add('hidden');
+                if (category === 'all' || block.getAttribute('data-cat') === category) {
+                    setTimeout(() => { block.classList.remove('hidden'); block.classList.add('revealed'); }, 100);
+                }
+            });
+        }
+
+        scrollTopBtn.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+        function revealOnScroll() {
+            document.querySelectorAll('.category-block').forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight/1.2) el.classList.add('revealed'); });
+        }
+        </script>
+    
+</body>
+</html>
