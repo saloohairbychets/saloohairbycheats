@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/jpeg" href="logo.jpeg">
+    <title>Book Now | Saloo Hair by Chets</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1a1f3c;
+            --primary-light: #2c396b;
+            --accent: #d4b8a0;
+            --accent-light: #e9ccbb;
+            --gold: #c9a96e;
+            --white: #ffffff;
+            --bg-light: #f9f7f5;
+            --text-dark: #333333;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --radius: 8px;
+            --nav-height: 80px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body, html { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-light); 
+            overflow-x: hidden; 
+            width: 100%; 
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 { 
+            font-family: 'Cormorant Garamond', serif; 
+            color: var(--primary); 
+            letter-spacing: 0.5px; 
+            font-weight: 600;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .btn-accent {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+        .btn-accent:hover {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        /* --- LOADER --- */
+        .loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-light);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.5s ease;
+        }
+        .loader.hidden { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 70px; height: 70px;
+            border: 5px solid rgba(26, 31, 60, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- HEADER --- */
+        header {
+            padding: 0 5%;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%; top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            height: var(--nav-height);
+            display: flex; align-items: center;
+        }
+        header.scrolled { height: 70px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .header-container {
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; max-width: 1400px; margin: 0 auto;
+        }
+        .logo { display: flex; align-items: center; text-decoration: none; transition: var(--transition); }
+        .logo:hover { transform: scale(1.05); }
+        .logo img { height: 50px; width: auto; display: block; transition: var(--transition); }
+        .logo-text {
+            margin-left: 12px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        .logo-text::after {
+            content: ''; position: absolute;
+            bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        .logo:hover .logo-text::after { width: 100%; }
+
+        .desktop-nav { display: flex; align-items: center; }
+        .nav-list { display: flex; list-style: none; align-items: center; gap: 40px; }
+        .nav-item { position: relative; }
+        nav a { 
+            text-decoration: none; color: var(--primary); 
+            font-size: 0.95rem; text-transform: uppercase; 
+            font-weight: 500; letter-spacing: 1.5px; 
+            transition: var(--transition);
+            padding: 10px 0; position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+        nav a::before {
+            content: ''; position: absolute;
+            bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        nav a:hover::before, nav a.active::before { width: 100%; }
+        nav a:hover { color: var(--accent); }
+        nav a.active { color: var(--accent); font-weight: 600; }
+
+        .nav-item.with-dropdown > a::after {
+            content: ''; display: inline-block;
+            width: 0; height: 0; margin-left: 8px; vertical-align: middle;
+            border-top: 4px solid;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+            transition: transform 0.3s ease;
+        }
+        .nav-item.with-dropdown:hover > a::after { transform: rotate(180deg); }
+
+        .dropdown { 
+            position: absolute; top: calc(100% + 15px); left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--white); min-width: 220px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            opacity: 0; visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            padding: 15px 0; border-radius: var(--radius);
+            border-top: 3px solid var(--accent);
+            z-index: 100;
+        }
+        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown a { 
+            display: block; padding: 12px 25px; 
+            text-transform: none; font-weight: 400; font-size: 0.95rem;
+            color: var(--text-dark); text-transform: capitalize;
+            transition: all 0.3s ease;
+        }
+        .dropdown a::before { display: none; }
+        .dropdown a:hover { background: var(--bg-light); color: var(--primary); padding-left: 30px; }
+
+        .nav-book-btn {
+            margin-left: 30px; padding: 12px 28px;
+            background: var(--primary); color: var(--white);
+            border-radius: var(--radius);
+            font-weight: 600; letter-spacing: 1px;
+            text-transform: uppercase; font-size: 0.85rem;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            text-decoration: none; display: inline-block;
+            position: relative; overflow: hidden;
+        }
+        .nav-book-btn::before {
+            content: ''; position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--accent); transition: left 0.4s ease;
+            z-index: 1;
+        }
+        .nav-book-btn:hover::before { left: 0; }
+        .nav-book-btn span, .nav-book-btn { position: relative; z-index: 2; }
+        .nav-book-btn:hover { color: var(--primary); border-color: var(--accent); }
+
+        .menu-toggle { 
+            display: none; font-size: 1.5rem; color: var(--primary);
+            cursor: pointer; z-index: 1001;
+            width: 40px; height: 40px;
+            align-items: center; justify-content: center;
+            border-radius: 50%; transition: var(--transition);
+        }
+        .menu-toggle:hover { background: var(--bg-light); }
+
+        .mobile-menu {
+            position: fixed; top: 0; right: -100%;
+            width: 320px; height: 100%;
+            background: var(--white); z-index: 1002;
+            padding: 100px 30px 40px;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+        .mobile-menu.active { right: 0; }
+        .mobile-nav-list { list-style: none; }
+        .mobile-nav-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 15px;
+        }
+        .mobile-nav-item:last-child { border-bottom: none; }
+        .mobile-nav-item a {
+            text-decoration: none; color: var(--primary);
+            font-size: 1.1rem; font-weight: 500;
+            display: block; transition: var(--transition);
+            padding: 10px 0; position: relative;
+        }
+        .mobile-nav-item a:hover { color: var(--accent); padding-left: 10px; }
+        .mobile-dropdown {
+            margin-top: 10px; padding-left: 20px;
+            display: none; border-left: 2px solid var(--bg-light);
+        }
+        .mobile-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .mobile-dropdown a { font-size: 0.95rem; margin-bottom: 8px; opacity: 0.8; }
+        .mobile-dropdown-toggle {
+            display: flex; justify-content: space-between;
+            align-items: center; cursor: pointer;
+        }
+        .mobile-dropdown-toggle i { transition: var(--transition); color: var(--accent); }
+        .mobile-dropdown-toggle.active i { transform: rotate(180deg); }
+
+        .menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1001;
+            opacity: 0; visibility: hidden; transition: var(--transition);
+            backdrop-filter: blur(3px);
+        }
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+
+        /* --- BOOKING PAGE --- */
+        .booking-hero {
+            margin-top: var(--nav-height);
+            height: 45vh; min-height: 350px;
+            background: linear-gradient(rgba(26, 31, 60, 0.85), rgba(26, 31, 60, 0.7)), url('1.jpeg');
+            background-size: cover; background-position: center 30%;
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; color: white; padding: 0 20px;
+        }
+        .booking-hero h1 {
+            color: white;
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
+            font-family: 'Playfair Display', serif;
+            font-weight: 700; margin-bottom: 10px; letter-spacing: 2px;
+        }
+        .booking-hero p {
+            font-size: 1.1rem; letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-light);
+            font-weight: 300;
+        }
+
+        .booking-section { padding: 80px 0 100px; background: var(--bg-light); }
+        .booking-wrapper {
+            max-width: 750px; margin: 0 auto;
+            background: var(--white);
+            padding: 55px 50px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(212, 184, 160, 0.2);
+            position: relative; overflow: hidden;
+        }
+        .booking-wrapper::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--gold), var(--accent));
+        }
+
+        .booking-header { text-align: center; margin-bottom: 45px; }
+        .booking-header i {
+            font-size: 2.8rem; color: var(--accent);
+            margin-bottom: 15px; display: block;
+        }
+        .booking-header h2 {
+            font-size: 2.4rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 8px;
+        }
+        .booking-header p {
+            color: #777; font-size: 0.95rem; letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 25px; position: relative;
+        }
+        .form-group label {
+            display: block; font-size: 0.8rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--primary); margin-bottom: 8px;
+        }
+        .form-group label .required { color: #d9534f; margin-left: 4px; }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            transition: var(--transition);
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(212, 184, 160, 0.15);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa; font-weight: 300;
+        }
+        .form-group select {
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231a1f3c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 45px; cursor: pointer;
+        }
+        .form-group textarea {
+            resize: vertical; min-height: 110px;
+        }
+        .form-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+        }
+
+        .radio-group {
+            display: flex; gap: 25px; padding: 5px 0; flex-wrap: wrap;
+        }
+        .radio-group label {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.95rem; font-weight: 400;
+            text-transform: none; letter-spacing: 0;
+            color: var(--text-dark); cursor: pointer; margin-bottom: 0;
+        }
+        .radio-group input[type="radio"] {
+            width: 18px; height: 18px;
+            accent-color: var(--accent); cursor: pointer;
+        }
+
+        /* Conditional groups — hidden until needed */
+        .conditional-group {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease;
+            margin-bottom: 0;
+        }
+        .conditional-group.visible {
+            max-height: 300px;
+            opacity: 1;
+            margin-bottom: 25px;
+        }
+
+        .submit-btn {
+            width: 100%; padding: 16px;
+            background: var(--primary); color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem; font-weight: 600;
+            letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: var(--transition);
+            margin-top: 15px;
+            position: relative; overflow: hidden;
+        }
+        .submit-btn::before {
+            content: ''; position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--accent); transition: left 0.4s ease;
+            z-index: 1;
+        }
+        .submit-btn:hover::before { left: 0; }
+        .submit-btn span { position: relative; z-index: 2; }
+        .submit-btn:hover {
+            color: var(--primary); border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(212, 184, 160, 0.4);
+        }
+        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .form-message {
+            text-align: center; margin-top: 20px; padding: 12px;
+            border-radius: var(--radius); font-size: 0.9rem; display: none;
+        }
+        .form-message.success {
+            display: block; background: #e8f5e9; color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        .form-message.error {
+            display: block; background: #ffebee; color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .info-note {
+            text-align: center; margin-top: 25px;
+            font-size: 0.85rem; color: #888;
+        }
+        .info-note i { color: var(--accent); margin-right: 5px; }
+
+        /* Section divider inside form */
+        .form-divider {
+            text-align: center;
+            margin: 30px 0 25px;
+            position: relative;
+        }
+        .form-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212,184,160,0.4), transparent);
+            z-index: 1;
+        }
+        .form-divider span {
+            position: relative;
+            z-index: 2;
+            background: var(--white);
+            padding: 0 15px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* --- FOOTER --- */
+        footer { 
+            padding: 80px 5% 30px; 
+            background: var(--primary); 
+            color: #ccc; position: relative;
+        }
+        footer::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(to right, var(--accent), var(--gold), var(--accent));
+        }
+        footer h3 { 
+            color: var(--accent); margin-bottom: 25px;
+            text-transform: uppercase; font-size: 1.2rem;
+            letter-spacing: 1px; position: relative; display: inline-block;
+        }
+        footer h3::after {
+            content: ''; position: absolute;
+            bottom: -8px; left: 0; width: 40px; height: 2px;
+            background: var(--gold);
+        }
+        .footer-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px; margin-bottom: 60px;
+        }
+        .footer-col p { font-size: 0.95rem; line-height: 1.8; margin-bottom: 15px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a {
+            color: #ccc; text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem; display: inline-block;
+            position: relative;
+        }
+        .footer-links a::before {
+            content: ''; position: absolute;
+            bottom: 0; left: 0; width: 0; height: 1px;
+            background: var(--accent); transition: width 0.3s ease;
+        }
+        .footer-links a:hover::before { width: 100%; }
+        .footer-links a:hover { color: var(--accent); padding-left: 5px; }
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons a {
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%; color: var(--white);
+            text-decoration: none; transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .social-icons a::before {
+            content: ''; position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--accent); transition: left 0.4s ease;
+        }
+        .social-icons a:hover::before { left: 0; }
+        .social-icons a i { position: relative; z-index: 1; }
+        .social-icons a:hover { color: var(--primary); transform: translateY(-5px); }
+        .footer-bottom {
+            text-align: center; padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem; opacity: 0.7; letter-spacing: 1px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .menu-toggle { display: flex; }
+            .desktop-nav { display: none; }
+            .nav-book-btn { display: none; }
+            .booking-wrapper { padding: 40px 30px; }
+        }
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .booking-wrapper { padding: 35px 25px; }
+            .booking-header h2 { font-size: 1.9rem; }
+            .radio-group { flex-direction: column; gap: 12px; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .social-icons { justify-content: center; }
+            footer h3::after { left: 50%; transform: translateX(-50%); }
+        }
+        @media (max-width: 576px) {
+            .header-container { padding: 0 15px; }
+            .logo img { height: 45px; }
+            .logo-text { font-size: 1.5rem; }
+            .mobile-menu { width: 100%; padding: 90px 20px 30px; }
+            .booking-hero h1 { font-size: 2.2rem; }
+            .booking-hero p { font-size: 0.85rem; letter-spacing: 3px; }
+            .booking-wrapper { padding: 30px 20px; }
+            .submit-btn { font-size: 0.8rem; padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpeg" alt="Logo">
+                <span class="logo-text">Saloo Hair</span>
+            </a>
+            
+            <nav class="desktop-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="about.html">About</a></li>
+                    <li class="nav-item with-dropdown">
+                        <a href="#">Services</a>
+                        <div class="dropdown">
+                            <a href="men.html">Men's Grooming</a>
+                            <a href="women.html">Women's Beauty</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="index.html#contact">Contact</a></li>
+                    <li class="nav-item">
+                        <a href="book.html" class="nav-book-btn active">Book Now</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-list">
+            <li class="mobile-nav-item"><a href="index.html">Home</a></li>
+            <li class="mobile-nav-item"><a href="about.html">About Us</a></li>
+            <li class="mobile-nav-item">
+                <div class="mobile-dropdown-toggle">
+                    <a href="#">Services</a>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="mobile-dropdown">
+                    <a href="men.html">Men's Grooming</a>
+                    <a href="women.html">Women's Beauty</a>
+                </div>
+            </li>
+            <li class="mobile-nav-item"><a href="index.html#contact">Contact Us</a></li>
+            <li class="mobile-nav-item">
+                <a href="book.html" class="btn btn-accent" style="display: block; text-align: center; margin-top: 10px;">Book Now</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Booking Hero -->
+    <section class="booking-hero">
+        <div>
+            <h1>Book Your Appointment</h1>
+            <p>Reserve your luxury experience</p>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section class="booking-section">
+        <div class="container">
+            <div class="booking-wrapper">
+                <div class="booking-header">
+                    <i class="fas fa-calendar-check"></i>
+                    <h2>Reservation Details</h2>
+                    <p>Fill in your details and we'll confirm your appointment</p>
+                </div>
+
+                <!-- Web3Forms submission -->
+                <form id="bookingForm" action="https://api.web3forms.com/submit" method="POST">
+                    <!-- ⚠️ REPLACE with your Web3Forms access key -->
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                    <input type="hidden" name="subject" value="New Booking Request - Saloo Hair by Chets">
+                    <input type="hidden" name="from_name" value="Saloo Hair Booking">
+                    <input type="hidden" name="formatted_email" id="formattedEmail" value="">
+
+                    <!-- ============ PART 1: CUSTOMER DETAILS ============ -->
+                    <div class="form-divider"><span>Part 1 · Your Details</span></div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="number">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="number" name="number" placeholder="e.g. +91 98765 43210" required pattern="[0-9+\s\-()]{7,20}">
+                    </div>
+
+                    <!-- Email (NEW) -->
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="e.g. you@example.com" required>
+                    </div>
+
+                    <!-- Love Appointment (main purpose) -->
+                    <div class="form-group">
+                        <label for="love_appointment">Love Appointment For <span class="required">*</span></label>
+                        <select id="love_appointment" name="love_appointment" required>
+                            <option value="" disabled selected>Select appointment type</option>
+                            <option value="Haircut & Styling">Haircut & Styling</option>
+                            <option value="Hair Color">Hair Color</option>
+                            <option value="Hair Treatment / Spa">Hair Treatment / Spa</option>
+                            <option value="Facial / Cleanup">Facial / Cleanup</option>
+                            <option value="Waxing / Threading">Waxing / Threading</option>
+                            <option value="Manicure / Pedicure">Manicure / Pedicure</option>
+                            <option value="Bridal / Groom Makeup">Bridal / Groom Makeup</option>
+                            <option value="Other Service">Other Service</option>
+                        </select>
+                    </div>
+
+                    <!-- Conditional: Preferred Slot (only shows after Love Appointment chosen) -->
+                    <div class="conditional-group" id="slotGroup">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="slot">Preferred Slot <span class="required">*</span></label>
+                            <select id="slot" name="slot">
+                                <option value="" disabled selected>Select a time slot</option>
+                                <option value="Morning (10:00 AM - 12:00 PM)">Morning (10:00 AM - 12:00 PM)</option>
+                                <option value="Afternoon (12:00 PM - 3:00 PM)">Afternoon (12:00 PM - 3:00 PM)</option>
+                                <option value="Evening (3:00 PM - 6:00 PM)">Evening (3:00 PM - 6:00 PM)</option>
+                                <option value="Late Evening (6:00 PM - 9:00 PM)">Late Evening (6:00 PM - 9:00 PM)</option>
+                                <option value="Weekend Special">Weekend Special</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Membership Status -->
+                    <div class="form-group">
+                        <label>Membership Status <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="membership" value="New Client" required> New Client
+                            </label>
+                            <label>
+                                <input type="radio" name="membership" value="Existing Member"> Existing Member
+                            </label>
+                            <label>
+                                <input type="radio" name="membership" value="VIP Member"> VIP Member
+                            </label>
+                            <label>
+                                <input type="radio" name="membership" value="Membership Inquiry"> Membership Inquiry
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Conditional: Membership Inquiry (only shows if "Membership Inquiry" is selected) -->
+                    <div class="conditional-group" id="membershipInquiryGroup">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="membership_inquiry">Membership Inquiry Type <span class="required">*</span></label>
+                            <select id="membership_inquiry" name="membership_inquiry">
+                                <option value="" disabled selected>What would you like to know?</option>
+                                <option value="Pricing & Plans">Pricing & Plans</option>
+                                <option value="Benefits & Perks">Benefits & Perks</option>
+                                <option value="How to Join">How to Join</option>
+                                <option value="Renew Existing Membership">Renew Existing Membership</option>
+                                <option value="Cancel / Upgrade">Cancel / Upgrade</option>
+                                <option value="Other Inquiry">Other Inquiry</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ============ PART 2: APPOINTMENT DETAILS ============ -->
+                    <div class="form-divider"><span>Part 2 · Appointment Details</span></div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="description">Description / Special Requests</label>
+                        <textarea id="description" name="description" placeholder="Tell us about your preferred service, stylist, or any special requests..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>Confirm Booking</span>
+                    </button>
+
+                    <div class="form-message" id="formMessage"></div>
+                </form>
+
+                <div class="info-note">
+                    <i class="fas fa-info-circle"></i> We'll contact you within 24 hours to confirm your appointment.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Location</h3>
+                    <p>Siddhraj Z Square, Shop No. W00-7<br>Kudasan, near Union Bank of India<br>Gandhinagar - 382419</p>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/saloo_hair_by_chets/"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/919925569261"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <p>Email: Chetsnai1111@gmail.com</p>
+                    <p>Call: <a href="tel:9925569261" style="color: inherit; text-decoration: none; font-weight: 600;">+91 99255 69261</a></p>
+                    <p>Hours: Mon-Sun 10:00 AM - 9:00 PM</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="men.html">Men's Services</a></li>
+                        <li><a href="women.html">Women's Services</a></li>
+                        <li><a href="book.html">Book Now</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 SALOO HAIR BY CHETS. ALL RIGHTS RESERVED. | Crafted with <i class="fas fa-heart" style="color: #e25555;"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ================= LOADER =================
+        const loader = document.getElementById('loader');
+        window.addEventListener('load', () => {
+            setTimeout(() => loader.classList.add('hidden'), 800);
+        });
+
+        // ================= HEADER SCROLL =================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // ================= MOBILE MENU =================
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        }
+        mobileDropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dropdown = toggle.nextElementSibling;
+                toggle.classList.toggle('active');
+                dropdown.classList.toggle('active');
+            });
+        });
+
+        // ================= CONDITIONAL FIELDS =================
+        const loveAppointment = document.getElementById('love_appointment');
+        const slotGroup = document.getElementById('slotGroup');
+        const slotSelect = document.getElementById('slot');
+
+        // Show "Preferred Slot" only after a Love Appointment is chosen
+        loveAppointment.addEventListener('change', () => {
+            if (loveAppointment.value) {
+                slotGroup.classList.add('visible');
+                slotSelect.setAttribute('required', 'required');
+            } else {
+                slotGroup.classList.remove('visible');
+                slotSelect.removeAttribute('required');
+                slotSelect.value = '';
+            }
+        });
+
+        // Show "Membership Inquiry" dropdown only when "Membership Inquiry" radio is selected
+        const membershipRadios = document.querySelectorAll('input[name="membership"]');
+        const membershipInquiryGroup = document.getElementById('membershipInquiryGroup');
+        const membershipInquirySelect = document.getElementById('membership_inquiry');
+
+        membershipRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.value === 'Membership Inquiry' && radio.checked) {
+                    membershipInquiryGroup.classList.add('visible');
+                    membershipInquirySelect.setAttribute('required', 'required');
+                } else {
+                    membershipInquiryGroup.classList.remove('visible');
+                    membershipInquirySelect.removeAttribute('required');
+                    membershipInquirySelect.value = '';
+                }
+            });
+        });
+
+        // ================= FORM SUBMISSION =================
+        const bookingForm = document.getElementById('bookingForm');
+        const formMessage = document.getElementById('formMessage');
+
+        bookingForm.addEventListener('submit', function(e) {
+            // Grab values
+            const name = document.getElementById('name').value.trim();
+            const number = document.getElementById('number').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const appointment = loveAppointment.value;
+            const slot = slotSelect.value;
+            const membership = document.querySelector('input[name="membership"]:checked');
+            const membershipInquiry = membershipInquirySelect.value;
+            const description = (document.getElementById('description').value || '—').trim();
+
+            // Validate
+            if (!name || !number || !email || !appointment || !membership) {
+                e.preventDefault();
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Please fill in all required fields.';
+                return;
+            }
+
+            if (membership.value === 'Membership Inquiry' && !membershipInquiry) {
+                e.preventDefault();
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Please select a membership inquiry type.';
+                return;
+            }
+
+            if (membership.value !== 'Membership Inquiry' && !slot) {
+                e.preventDefault();
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Please select a preferred time slot.';
+                return;
+            }
+
+            // Build the formatted email (same style as Veeru Infotech)
+            const divider = '━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+
+            const part1 = [
+                divider,
+                '📋 PART 1 — CUSTOMER DETAILS',
+                divider,
+                `Customer Name : ${name}`,
+                `Phone         : ${number}`,
+                `Email         : ${email}`,
+                `Membership    : ${membership.value}`,
+                divider
+            ].join('\n');
+
+            const part2Lines = [
+                divider,
+                '🛠️ PART 2 — APPOINTMENT DETAILS',
+                divider,
+                `Love Appointment : ${appointment}`
+            ];
+            if (membership.value !== 'Membership Inquiry') {
+                part2Lines.push(`Preferred Slot   : ${slot}`);
+            } else {
+                part2Lines.push(`Inquiry Type     : ${membershipInquiry}`);
+            }
+            part2Lines.push(`Description      : ${description}`);
+            part2Lines.push(divider);
+            const part2 = part2Lines.join('\n');
+
+            const fullInfo = [
+                divider,
+                '📌 INTERNAL REFERENCE',
+                divider,
+                'Booking Type  : Salon Appointment',
+                'Branch        : Saloo Hair by Chets, Gandhinagar',
+                'Contact       : +91 99255 69261',
+                divider
+            ].join('\n');
+
+            const formattedField = document.getElementById('formattedEmail');
+            if (formattedField) {
+                formattedField.value = `\n${part1}\n\n${part2}\n\n${fullInfo}\n`;
+            }
+
+            // Sending state — let native form submit to Web3Forms
+            formMessage.className = 'form-message success';
+            formMessage.textContent = 'Sending your booking request…';
+
+            const btn = bookingForm.querySelector('button[type="submit"]');
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                btn.disabled = true;
+            }
+
+            // Do NOT preventDefault — allow POST to Web3Forms
+        });
+    </script>
+</body>
+</html>

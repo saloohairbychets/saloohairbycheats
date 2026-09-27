@@ -10,13 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ======== ROOT & BASE (same as original) ======== */
+        /* ======== ROOT & BASE ======== */
         :root {
             --gold: #d4af37;
             --gold-light: #e6c158;
             --gold-dark: #b8941a;
             --steel-blue: #2c396b;
-           /* --steel-blue-light: #3a4a8a;*/
             --steel-blue-light: #bdb23e;
             --black: #0a0a0a;
             --black-light: #1a1a1a;
@@ -57,7 +56,7 @@
         }
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 500; letter-spacing: 0.5px; }
 
-        /* --- LOADER (unchanged) --- */
+        /* --- LOADER --- */
         .loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -77,7 +76,7 @@
         .loader-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- HEADER, HERO, FOOTER identical to original (kept minimal here for space) --- */
+        /* --- HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 8%; background: rgba(10, 10, 10, 0.97); backdrop-filter: blur(15px);
@@ -89,18 +88,17 @@
         .logo:hover { transform: translateY(-2px); }
         .logo img { height: 50px; width: auto; display: block; filter: brightness(1.1); }
 
-        /* desktop nav / mobile toggle – shortened for brevity (functionally same) */
         .desktop-nav { display: flex; align-items: center; }
         .nav-list { display: flex; align-items: center; list-style: none; gap: 35px; }
         .nav-item { position: relative; }
-        .nav-item a { text-decoration: none; color: var(--white); font-size: 0.9rem; text-transform: uppercase; font-weight: 500; letter-spacing: 1.5px; transition: var(--transition); padding: 8px 0; position: relative; }
-        .nav-item a::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--steel-blue); transition: width 0.4s; }
-        .nav-item a:hover::before, .nav-item a.active::before { width: 100%; }
-        .nav-item a.active { color: var(--steel-blue-light); }
+        .nav-item > a { text-decoration: none; color: var(--white); font-size: 0.9rem; text-transform: uppercase; font-weight: 500; letter-spacing: 1.5px; transition: var(--transition); padding: 8px 0; position: relative; display: inline-block; }
+        .nav-item > a::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--steel-blue); transition: width 0.4s; }
+        .nav-item > a:hover::before, .nav-item > a.active::before { width: 100%; }
+        .nav-item > a.active { color: var(--steel-blue-light); }
 
         .dropdown { position: absolute; top: calc(100% + 10px); left: 0; background: rgba(26, 26, 26, 0.97); backdrop-filter: blur(10px); min-width: 200px; box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(15px); transition: var(--transition); padding: 15px 0; border-radius: var(--radius); border: 1px solid rgba(44, 57, 107, 0.2); z-index: 100; }
         .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-        .dropdown a { display: block; padding: 12px 25px; text-transform: none; font-weight: 400; font-size: 0.9rem; color: var(--gray-light); transition: all 0.3s ease; }
+        .dropdown a { display: block; padding: 12px 25px; text-transform: none; font-weight: 400; font-size: 0.9rem; color: var(--gray-light); transition: all 0.3s ease; text-decoration: none; }
         .dropdown a:hover { background: rgba(44, 57, 107, 0.1); color: var(--steel-blue-light); padding-left: 30px; }
 
         .call-btn { background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white) !important; padding: 10px 25px !important; border-radius: 4px; font-weight: 600; margin-left: 25px; position: relative; overflow: hidden; }
@@ -108,7 +106,7 @@
         .call-btn:hover::before { left: 0; }
         .call-btn span { position: relative; z-index: 2; }
 
-        .menu-toggle { display: none; font-size: 1.5rem; color: var(--white); cursor: pointer; z-index: 1001; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(44, 57, 107, 0.1); }
+        .menu-toggle { display: none; font-size: 1.5rem; color: var(--white); cursor: pointer; z-index: 1001; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 50%; background: rgba(44, 57, 107, 0.1); }
         .menu-toggle:hover { background: rgba(44, 57, 107, 0.2); transform: rotate(90deg); }
 
         .mobile-menu { position: fixed; top: 0; right: -100%; width: 300px; height: 100%; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px); z-index: 1002; padding: 100px 30px 40px; box-shadow: -5px 0 30px rgba(0,0,0,0.5); transition: var(--transition); overflow-y: auto; border-left: 1px solid rgba(44, 57, 107, 0.2); }
@@ -121,6 +119,7 @@
         .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1001; opacity: 0; visibility: hidden; transition: var(--transition); backdrop-filter: blur(5px); }
         .menu-overlay.active { opacity: 1; visibility: visible; }
 
+        /* --- HERO --- */
         .hero { height: 70vh; min-height: 600px; margin-top: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.7)), url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; text-align: center; padding: 0 20px; position: relative; overflow: hidden; }
         .hero h1 { font-size: clamp(3.5rem, 10vw, 7rem); font-style: italic; font-weight: 400; color: var(--white); text-shadow: 0 5px 15px rgba(0, 0, 0, 0.7); margin-bottom: 10px; letter-spacing: 2px; font-family: 'Source Serif Pro', serif; }
         .hero-subtitle { font-size: clamp(1rem, 3vw, 1.5rem); letter-spacing: 8px; color: var(--gold); text-transform: uppercase; font-weight: 300; margin-bottom: 30px; position: relative; display: inline-block; }
@@ -128,8 +127,9 @@
         .hero-desc { font-size: 1.1rem; color: var(--gray-light); max-width: 600px; margin: 30px auto 40px; line-height: 1.8; font-weight: 300; }
         .btn { padding: 14px 32px; background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white); border-radius: 4px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; transition: var(--transition); border: none; cursor: pointer; text-decoration: none; display: inline-block; position: relative; overflow: hidden; }
         .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--black); }
+        .hero-cta { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
-        /* --- MENU SECTION (same style as original) --- */
+        /* --- MENU SECTION --- */
         .menu-section { padding: 100px 8% 80px; background: var(--black); position: relative; }
         .section-header { text-align: center; margin-bottom: 70px; }
         .section-header h2 { font-size: clamp(2.5rem, 6vw, 4rem); color: var(--steel-blue-light); text-transform: uppercase; letter-spacing: 4px; font-weight: 500; margin-bottom: 20px; position: relative; display: inline-block; }
@@ -141,10 +141,11 @@
         .filter-nav button:hover { color: var(--steel-blue-light); border-color: var(--steel-blue); transform: translateY(-3px); }
         .filter-nav button.active { background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white); border-color: var(--steel-blue); font-weight: 600; box-shadow: 0 5px 15px rgba(44, 57, 107, 0.2); }
 
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px; opacity: 0; transform: translateY(30px); transition: var(--transition); }
-        .menu-grid.active { opacity: 1; transform: translateY(0); }
-        .category-block { margin-bottom: 40px; border-top: 1px solid rgba(44, 57, 107, 0.3); padding-top: 30px; transition: var(--transition); opacity: 0; transform: translateY(30px); }
-        .category-block.revealed { opacity: 1; transform: translateY(0); }
+        /* Menu grid — visible immediately (no fade-in dependency) */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px; }
+
+        /* Category blocks — visible by default; .revealed is only for animation */
+        .category-block { margin-bottom: 40px; border-top: 1px solid rgba(44, 57, 107, 0.3); padding-top: 30px; opacity: 1; transform: none; transition: var(--transition); }
         .category-block.hidden { display: none; }
         .category-block h3 { font-size: 1.8rem; color: var(--steel-blue-light); margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; font-weight: 500; position: relative; padding-bottom: 15px; }
         .category-block h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 2px; background: var(--steel-blue); }
@@ -159,18 +160,44 @@
         .price { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; font-weight: 500; color: var(--gold); white-space: nowrap; transition: var(--transition); }
         .service-row:hover .price { transform: scale(1.05); }
 
+        /* --- FLOATING BUTTONS --- */
         .floating-cta { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--steel-blue), var(--steel-blue-light)); color: var(--white); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.5rem; box-shadow: 0 10px 30px rgba(44, 57, 107, 0.3); z-index: 100; transition: var(--transition); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 10px 30px rgba(44,57,107,0.3); } 50% { box-shadow: 0 10px 40px rgba(44,57,107,0.5); } 100% { box-shadow: 0 10px 30px rgba(44,57,107,0.3); } }
 
-        footer { padding: 80px 8% 40px; background: #050505; border-top: 1px solid rgba(44, 57, 107, 0.2); position: relative; overflow: hidden; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 50px; text-align: center; position: relative; z-index: 1; }
-        .footer-col h4 { color: var(--steel-blue-light); font-size: 1.3rem; margin-bottom: 25px; text-transform: uppercase; font-weight: 500; letter-spacing: 2px; position: relative; display: inline-block; }
-        .footer-col h4::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--steel-blue); }
-        .social-icons a:hover { background: var(--steel-blue); color: var(--white); transform: translateY(-5px); }
-        .scroll-top { position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; background: rgba(26, 26, 26, 0.8); color: var(--steel-blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem; opacity: 0; visibility: hidden; transition: var(--transition); border: 1px solid rgba(44, 57, 107, 0.2); }
-        .scroll-top.active { opacity: 1; visibility: visible; }
+        .floating-whatsapp { position: fixed; bottom: 105px; right: 30px; background: linear-gradient(135deg, #25D366, #128C7E); color: var(--white); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.7rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); z-index: 100; transition: var(--transition); }
+        .floating-whatsapp:hover { transform: translateY(-5px) scale(1.05); }
 
-        @media (max-width: 992px) { .menu-toggle { display: flex; } .desktop-nav { display: none; } }
+        /* --- SCROLL TOP --- */
+        .scroll-top { position: fixed; bottom: 180px; right: 35px; width: 50px; height: 50px; background: rgba(26, 26, 26, 0.9); color: var(--steel-blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem; opacity: 0; visibility: hidden; transition: var(--transition); border: 1px solid rgba(44, 57, 107, 0.3); z-index: 100; cursor: pointer; }
+        .scroll-top.active { opacity: 1; visibility: visible; }
+        .scroll-top:hover { background: var(--steel-blue); color: var(--white); transform: translateY(-3px); }
+
+        /* --- SCROLL INDICATOR (HERO) --- */
+        .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--gold); font-size: 1.5rem; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+        /* --- FOOTER --- */
+        footer { padding: 60px 5% 30px; background: #050505; border-top: 1px solid rgba(212,175,55,0.1); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 40px; text-align: center; }
+        .footer-col h4 { color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 1px; }
+        .footer-col p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+        .social-icons { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .social-icons a { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background: rgba(255,255,255,0.05); border-radius: 50%; color: var(--gray); transition: 0.3s; text-decoration: none; }
+        .social-icons a:hover { background: var(--steel-blue); color: var(--white); transform: translateY(-5px); }
+        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; color: var(--gray); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) { 
+            .menu-toggle { display: flex; } 
+            .desktop-nav { display: none; } 
+        }
+        @media (max-width: 768px) {
+            .menu-grid { grid-template-columns: 1fr; gap: 30px; }
+            .filter-nav { gap: 10px; }
+            .filter-nav button { padding: 10px 18px; font-size: 0.75rem; }
+            .floating-whatsapp, .floating-cta { width: 52px; height: 52px; font-size: 1.3rem; }
+            .scroll-top { width: 44px; height: 44px; bottom: 165px; right: 34px; }
+        }
     </style>
 </head>
 <body>
@@ -194,6 +221,7 @@
                         <a href="women.html">Women's Beauty</a>
                     </div>
                 </li>
+                <li class="nav-item"><a href="book.html">Book Appointment</a></li>
                 <li class="nav-item"><a href="tel:9925569261" class="call-btn"><span>99255 69261</span></a></li>
             </ul>
         </div>
@@ -208,6 +236,7 @@
             <li class="mobile-nav-item"><a href="about.html">About Us</a></li>
             <li class="mobile-nav-item"><a href="men.html" class="active">Men's Grooming</a></li>
             <li class="mobile-nav-item"><a href="women.html">Women's Beauty</a></li>
+            <li class="mobile-nav-item"><a href="book.html">Book Appointment</a></li>
             <li class="mobile-nav-item"><a href="tel:9925569261" class="mobile-call-btn"><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> 99255 69261</a></li>
         </ul>
     </div>
@@ -226,7 +255,7 @@
         <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== UPDATED MENU (FULL MENS PRICING) ========== -->
+    <!-- MENU SECTION -->
     <section class="menu-section" id="menu">
         <div class="section-header">
             <h2>Monsieur Collections</h2>
@@ -245,7 +274,7 @@
         <!-- Menu Grid -->
         <div class="menu-grid" id="menuGrid">
 
-            <!-- 1. HAIRCUT / BEARD / STYLING / WASH (category hair) -->
+            <!-- 1. HAIRCUT / BEARD / STYLING / WASH -->
             <div class="category-block" data-cat="hair">
                 <h3>Haircut / Beard / Styling / Wash</h3>
                 <div class="service-row"><span class="service-name">Boys (below 12 years)</span><div class="service-line"></div><span class="price">₹400</span></div>
@@ -259,7 +288,7 @@
                 <div class="service-row"><span class="service-name">Luxury Wash</span><div class="service-line"></div><span class="price">₹400</span></div>
             </div>
 
-            <!-- 2. BODY TRIMMING (category body) -->
+            <!-- 2. BODY TRIMMING -->
             <div class="category-block" data-cat="body">
                 <h3>Body Trimming</h3>
                 <div class="service-row"><span class="service-name">Chest / Back</span><div class="service-line"></div><span class="price">₹500</span></div>
@@ -269,7 +298,7 @@
                 <div class="service-row"><span class="service-name">Under Arms</span><div class="service-line"></div><span class="price">₹300</span></div>
             </div>
 
-            <!-- 3. HAIR COLOR – MAJIREL (category color) -->
+            <!-- 3. HAIR COLOR – MAJIREL -->
             <div class="category-block" data-cat="color">
                 <h3>Hair Color – Majirel</h3>
                 <div class="service-row"><span class="service-name">Male Per Streak Color</span><div class="service-line"></div><span class="price">₹300</span></div>
@@ -279,7 +308,7 @@
                 <div class="service-row"><span class="service-name">Beard</span><div class="service-line"></div><span class="price">₹500</span></div>
             </div>
 
-            <!-- 4. HAIR COLOR – INOA / Bigen (category color) -->
+            <!-- 4. HAIR COLOR – INOA / Bigen -->
             <div class="category-block" data-cat="color">
                 <h3>Hair Color – INOA & Bigen</h3>
                 <div class="service-row"><span class="service-name">Male Per Streak Color - Inoa</span><div class="service-line"></div><span class="price">₹350</span></div>
@@ -291,7 +320,7 @@
                 <div class="service-row"><span class="service-name">Pre Lightening - Global</span><div class="service-line"></div><span class="price">₹1300</span></div>
             </div>
 
-            <!-- 5. HAIR TREATMENTS / SPA (category hair) -->
+            <!-- 5. HAIR TREATMENTS / SPA -->
             <div class="category-block" data-cat="hair">
                 <h3>Hair Treatments & Spa</h3>
                 <div class="service-row"><span class="service-name">Add On with Color - Olaplex (Male)</span><div class="service-line"></div><span class="price">₹900</span></div>
@@ -304,14 +333,14 @@
                 <div class="service-row"><span class="service-name">Molecular Repair Treatment - Male</span><div class="service-line"></div><span class="price">₹2400</span></div>
             </div>
 
-            <!-- 6. TEXTURE SERVICES (category hair) -->
+            <!-- 6. TEXTURE SERVICES -->
             <div class="category-block" data-cat="hair">
                 <h3>Texture Services</h3>
                 <div class="service-row"><span class="service-name">Smoothening / Botoplex / Botoliss - Male</span><div class="service-line"></div><span class="price">₹5000</span></div>
                 <div class="service-row"><span class="service-name">Nanoplastia - Male</span><div class="service-line"></div><span class="price">₹5500</span></div>
             </div>
 
-            <!-- 7. MOROCCAN RITUALS (category body / treat) -->
+            <!-- 7. MOROCCAN RITUALS -->
             <div class="category-block" data-cat="body">
                 <h3>Moroccan Rituals (Male)</h3>
                 <div class="service-row"><span class="service-name">Moroccan oil Ritual - Male</span><div class="service-line"></div><span class="price">₹1100</span></div>
@@ -322,7 +351,7 @@
                 <div class="service-row"><span class="service-name">Moroccan Scalp & Hair Balance - Male</span><div class="service-line"></div><span class="price">₹2500</span></div>
             </div>
 
-            <!-- 8. CLEANUP & FACIALS (category skin) -->
+            <!-- 8. CLEANUP & FACIALS -->
             <div class="category-block" data-cat="skin">
                 <h3>Cleanup & Facials (Male)</h3>
                 <div class="service-row"><span class="service-name">Classic Cleanup</span><div class="service-line"></div><span class="price">₹1400</span></div>
@@ -336,7 +365,7 @@
                 <div class="service-row"><span class="service-name">Add on Hydra Machine (with any facial)</span><div class="service-line"></div><span class="price">₹1000</span></div>
             </div>
 
-            <!-- 9. MUD MASK / DETAN / BLACK MUD MASK (category skin) -->
+            <!-- 9. MUD MASK / DETAN -->
             <div class="category-block" data-cat="skin">
                 <h3>Mud Mask & De-tan</h3>
                 <div class="service-row"><span class="service-name">De-tan Mask</span><div class="service-line"></div><span class="price">₹900</span></div>
@@ -352,7 +381,7 @@
                 <div class="service-row"><span class="service-name">Full Body</span><div class="service-line"></div><span class="price">₹13,000</span></div>
             </div>
 
-            <!-- 10. ITALIAN LIPOSOLUABLE WAX (category body) -->
+            <!-- 10. ITALIAN WAX -->
             <div class="category-block" data-cat="body">
                 <h3>Italian Liposoluable Wax - Male</h3>
                 <div class="service-row"><span class="service-name">Under Arms - Male</span><div class="service-line"></div><span class="price">₹400</span></div>
@@ -361,7 +390,7 @@
                 <div class="service-row"><span class="service-name">Full Body - Male</span><div class="service-line"></div><span class="price">₹3800</span></div>
             </div>
 
-            <!-- 11. MANICURE & PEDICURE (category body) -->
+            <!-- 11. MANICURE & PEDICURE -->
             <div class="category-block" data-cat="body">
                 <h3>Manicure & Pedicure</h3>
                 <div class="service-row"><span class="service-name">Cut file</span><div class="service-line"></div><span class="price">₹200</span></div>
@@ -374,7 +403,7 @@
                 <div class="service-row"><span class="service-name">Reflexology (30 mins)</span><div class="service-line"></div><span class="price">₹1000</span></div>
             </div>
 
-            <!-- 12. MAKEUP (category skin) -->
+            <!-- 12. GROOM MAKEUP -->
             <div class="category-block" data-cat="skin">
                 <h3>Groom Makeup</h3>
                 <div class="service-row"><span class="service-name">Groom Makeup - HD (incl. hair style & beard trim)</span><div class="service-line"></div><span class="price">₹4000</span></div>
@@ -384,18 +413,43 @@
         </div> <!-- menu-grid -->
     </section>
 
-    <!-- Floating CTA & Scroll top -->
-    <a href="tel:9925569261" class="floating-cta"><i class="fas fa-phone-alt"></i></a>
-    <a href="#" class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></a>
+    <!-- Floating CTA Buttons -->
+    <a href="https://wa.me/919925569261" class="floating-whatsapp" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="tel:9925569261" class="floating-cta" aria-label="Call">
+        <i class="fas fa-phone-alt"></i>
+    </a>
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-grid">
-            <div class="footer-col"><h4>Kudasan Branch</h4><p>Siddhraj Z Square, W00-7</p><p>Kudasan, Gandhinagar - 382419</p><p>Near Union Bank of India</p></div>
-            <div class="footer-col"><h4>Connect With Us</h4><p>Chetsnai1111@gmail.com</p><p>Support: 99255 69261</p><p>Mon-Sun: 10:00 AM - 9:00 PM</p></div>
-            <div class="footer-col"><h4>Follow Our Journey</h4><p style="letter-spacing: 2px; color: var(--steel-blue-light);">@saloohairbychets</p><div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+            <div class="footer-col">
+                <h4>Kudasan Branch</h4>
+                <p>Siddhraj Z Square, W00-7</p>
+                <p>Kudasan, Gandhinagar - 382419</p>
+            </div>
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <p>Chetsnai1111@gmail.com</p>
+                <p>Support: 99255 69261</p>
+                <p>Mon-Sun: 10:00 AM - 9:00 PM</p>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Our Journey</h4>
+                <p style="color: var(--gold-light);">@saloohairbychets</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/saloo_hair_by_chets/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/919925569261" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
         </div>
-        <div class="footer-bottom"><p>© 2026 SALOO HAIR BY CHETS | MONSIEUR COLLECTION | 5% GST APPLICABLE</p><p style="margin-top: 10px; font-size: 0.7rem; color: #555;">Crafted with <i class="fas fa-heart" style="color: #e25555;"></i> for modern gentlemen</p></div>
+        <div class="footer-bottom">
+            <p>© 2026 SALOO HAIR BY CHETS | MONSIEUR COLLECTION | 5% GST APPLICABLE</p>
+        </div>
     </footer>
 
     <script>
@@ -405,41 +459,65 @@
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
         const menuOverlay = document.getElementById('menuOverlay');
-        const menuGrid = document.getElementById('menuGrid');
         const scrollTopBtn = document.getElementById('scrollTop');
-        
+
+        // --- Loader hide ---
         window.addEventListener('load', () => {
-            setTimeout(() => { loader.classList.add('hidden'); menuGrid.classList.add('active'); }, 1000);
-            revealOnScroll();
+            setTimeout(() => {
+                if (loader) loader.classList.add('hidden');
+            }, 800);
         });
+
+        // --- Scroll effects ---
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) header.classList.add('scrolled'); else header.classList.remove('scrolled');
-            if (window.scrollY > 500) scrollTopBtn.classList.add('active'); else scrollTopBtn.classList.remove('active');
-            revealOnScroll();
+            if (window.scrollY > 100) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+
+            if (scrollTopBtn) {
+                if (window.scrollY > 500) scrollTopBtn.classList.add('active');
+                else scrollTopBtn.classList.remove('active');
+            }
         });
 
-        menuToggle.addEventListener('click', () => { mobileMenu.classList.add('active'); menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; });
-        menuOverlay.addEventListener('click', () => { mobileMenu.classList.remove('active'); menuOverlay.classList.remove('active'); document.body.style.overflow = 'auto'; });
+        // --- Mobile menu ---
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        }
 
+        // --- Filter menu ---
         function filterMenu(category, btn) {
             const blocks = document.querySelectorAll('.category-block');
             const btns = document.querySelectorAll('.filter-nav button');
             btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+
             blocks.forEach(block => {
-                block.classList.add('hidden');
-                if (category === 'all' || block.getAttribute('data-cat') === category) {
-                    setTimeout(() => { block.classList.remove('hidden'); block.classList.add('revealed'); }, 100);
+                const match = (category === 'all' || block.getAttribute('data-cat') === category);
+                if (match) {
+                    block.classList.remove('hidden');
+                } else {
+                    block.classList.add('hidden');
                 }
             });
         }
 
-        scrollTopBtn.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-
-        function revealOnScroll() {
-            document.querySelectorAll('.category-block').forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight/1.2) el.classList.add('revealed'); });
+        // --- Scroll to top ---
+        if (scrollTopBtn) {
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         }
-        </script>
-    
+    </script>
 </body>
 </html>
